@@ -1,0 +1,34 @@
+{
+    "name": "dobee/server",
+    "description": "dobee php simple framework server component",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "janhuang",
+            "email": "bboyjanhuang@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://coding.net/janhuang/console.git"
+        },
+        {
+            "type": "git",
+            "url": "https://coding.net/janhuang/http.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "dobee/console": "*",
+        "dobee/http": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dobee\\": "src/Dobee"
+        }
+    }
+}
