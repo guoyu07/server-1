@@ -38,6 +38,25 @@ class HttpServer implements ServerInterface
     protected $eventHandlers = array();
 
     /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param array $config
+     * @return $this
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
      * @param array $config
      */
     public function __construct(array $config)
