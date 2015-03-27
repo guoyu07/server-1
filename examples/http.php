@@ -51,20 +51,16 @@ class RequestHandler implements \Dobee\Server\Handler\EventHandlerInterface
     public function handler()
     {
         return function (\swoole_http_request $request, \swoole_http_response $response) {
-            $httpRequest = \Dobee\Http\Request::createGlobalRequest();
+            /*$httpRequest = \Dobee\Http\Request::createGlobalRequest();
             foreach ($request->server as $name => $value) {
                 $httpRequest->server->set(strtoupper($name), $value);
             }
 
             foreach ($request->header as $name => $value) {
                 $httpRequest->headers->set(strtoupper($name), $value);
-            }
+            }*/
             // match routes
-
-            $response->write($httpRequest->getPathInfo());
-
-            unset($httpRequest);
-            $response->end();
+            $response->end('hello world');
         };
     }
 }
@@ -94,10 +90,10 @@ $http = new \Dobee\Server\HttpServer([
     'mode' => SWOOLE_BASE,
 ]);
 
-$http->setEventHandler(new StartHandler());
+//$http->setEventHandler(new StartHandler());
 $http->setEventHandler(new RequestHandler());
-$http->setEventHandler(new TaskHandler());
-
+//$http->setEventHandler(new TaskHandler());
+//
 $http->start();
 
 

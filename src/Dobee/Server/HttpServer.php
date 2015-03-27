@@ -33,7 +33,7 @@ class HttpServer implements ServerInterface
     protected $server;
 
     /**
-     * @var EventHandlerInterface
+     * @var EventHandlerInterface[]
      */
     protected $eventHandlers = array();
 
@@ -87,8 +87,8 @@ class HttpServer implements ServerInterface
     {
         $this->server->set($this->config);
 
-        foreach ($this->getEventHandler() as $event => $handler) {
-            $this->server->on($event, $handler);
+        foreach ($this->getEventHandler() as $handler) {
+            $this->server->on($handler->event(), $handler->handler());
         }
     }
 
@@ -132,13 +132,13 @@ class HttpServer implements ServerInterface
      */
     public function setEventHandler(EventHandlerInterface $eventHandlerInterface)
     {
-        $this->eventHandlers[$eventHandlerInterface->event()] = $eventHandlerInterface->handler();
+        $this->eventHandlers[] = $eventHandlerInterface;
 
         return $this;
     }
 
     /**
-     * @return EventHandlerInterface
+     * @return EventHandlerInterface[]
      */
     public function getEventHandler()
     {
