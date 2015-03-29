@@ -13,135 +13,31 @@
 
 namespace Dobee\Server;
 
-use Dobee\Server\Handler\EventHandlerInterface;
-
 /**
  * Class HttpServer
  *
  * @package Dobee\Server
  */
-class HttpServer implements ServerInterface
+class HttpServer extends Server
 {
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * @var \swoole_http_server
-     */
-    protected $server;
-
-    /**
-     * @var EventHandlerInterface[]
-     */
-    protected $eventHandlers = array();
-
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function createServer($host, $port, $mode, $flag = SWOOLE_SOCK_TCP)
     {
-        return $this->config;
+        $this->server = new \swoole_http_server($host, $port, $mode, $flag);
     }
 
     /**
-     * @param array $config
-     * @return $this
+     * @return string
      */
-    public function setConfig($config)
+    public function getMasterName()
     {
-        $this->config = $config;
-
-        return $this;
+        return 'dobee_server';
     }
 
     /**
-     * @param array $config
+     * @return string
      */
-    public function __construct(array $config)
+    public function getWorkerName()
     {
-        if (empty($config['host']) || empty($config['port'])) {
-            throw new \InvalidArgumentException('Arguments missing "host" or "port"');
-        }
-
-        $this->config = $config;
-
-        $this->server = new \swoole_http_server($config['host'], $config['port'], $config['mode']);
-    }
-
-    /**
-     * @return void
-     */
-    public function start()
-    {
-        $this->configure();
-
-        $this->server->start();
-    }
-
-    /**
-     * @return void
-     */
-    public function configure()
-    {
-        $this->server->set($this->config);
-
-        foreach ($this->getEventHandler() as $handler) {
-            $this->server->on($handler->event(), $handler->handler());
-        }
-    }
-
-    /**
-     * @return void
-     */
-    public function reload()
-    {
-        $this->server->reload();
-    }
-
-    /**
-     * @return void
-     */
-    public function status()
-    {
-        $this->server->stats();
-    }
-
-    /**
-     * @return void
-     */
-    public function restart()
-    {
-        $this->stop();
-
-        $this->start();
-    }
-
-    /**
-     * @return void
-     */
-    public function stop()
-    {
-        $this->server->shutdown();
-    }
-
-    /**
-     * @param EventHandlerInterface $eventHandlerInterface
-     * @return $this
-     */
-    public function setEventHandler(EventHandlerInterface $eventHandlerInterface)
-    {
-        $this->eventHandlers[] = $eventHandlerInterface;
-
-        return $this;
-    }
-
-    /**
-     * @return EventHandlerInterface[]
-     */
-    public function getEventHandler()
-    {
-        return $this->eventHandlers;
+        return 'dobee_worker';
     }
 }

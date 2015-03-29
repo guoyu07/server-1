@@ -25,5 +25,5 @@ $server = $builder->createDaemonize($http, array(
 //    'task_worker_num' => 4
 ), false);
 
-$server->start();
+$server->stop();
 
