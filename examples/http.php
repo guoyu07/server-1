@@ -2,9 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: janhuang
- * Date: 15/3/24
- * Time: 下午2:38
- * Github: https://www.github.com/janhuang
+ * Date: 15/3/30
+ * Time: 下午2:09
+ * Github: https://www.github.com/janhuang 
  * Coding: https://www.coding.net/janhuang
  * SegmentFault: http://segmentfault.com/u/janhuang
  * Blog: http://segmentfault.com/blog/janhuang
@@ -13,17 +13,10 @@
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$builder = \Dobee\Server\ServerBuilder::createServer('127.0.0.1', 1680, SWOOLE_BASE);
+$builder = \Dobee\Server\ServerBuilder::createServer('127.0.0.1', 9501);
 
-$http = new \Dobee\Server\HttpServer();
+$http = $builder->getHttpServer(array(), false);
 
-$http->setHandlers('Request', function ($request, $response) {
-    $response->end('hello swoole');
-});
+$http->setHandler('request', array(new \Dobee\Server\Handlers\HttpHandler(), 'request'));
 
-$server = $builder->createDaemonize($http, array(
-//    'task_worker_num' => 4
-), false);
-
-$server->start();
-
+$http->start();

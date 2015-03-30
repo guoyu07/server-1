@@ -12,20 +12,54 @@
  */
 $http = new swoole_http_server("127.0.0.1", 9501);
 
+$http->set(array(
+    'task_worker_num' => 4
+));
+
 set_exception_handler(function (Exception $exception) {
     echo $exception->getMessage();
 });
 
-$http->on('WorkerStart', function ($server, $workerId) {
-
+$http->on('Start', function ($server) {
+    echo 'start' . PHP_EOL;
 });
-$http->on('request', function ($request, $response) {
-    try {
-        throw new Exception('demo exception');
-    } catch (Exception $e) {
-        $response->end('error');
+
+$http->on('WorkerStart', function ($server, $workerId) {
+    echo 'worker start' . PHP_EOL;
+});
+
+$http->on('Connect', function ($server, $fd, $from_id) {
+    echo 'connect' . PHP_EOL;
+    $server->task('tj');
+});
+
+$http->on('Task', function ($server, $task_id, $form_id, $data) {
+    switch ($data) {
+        case 'tj':
+            // TODO 任务业务处理
+            break;
     }
 
-    $response->end("<h1>Hello Swoole. #".rand(1000, 9999)."</h1>");
+    $server->finish('ok');
 });
+
+$http->on('Finish', function ($server, $task_id, $data) {
+    echo 'finish' . $data . ' from ' . $task_id;
+});
+
+$http->on('Close', function ($server, $fd, $from_id) {
+    echo 'close' . PHP_EOL;
+});
+
+$http->on('request', function ($request, $response) {
+    print_r($response);
+    try {
+        $response->write('hello world');
+    } catch (Exception $e) {
+        $response->write('error');
+    }
+
+    $response->end();
+});
+
 $http->start();

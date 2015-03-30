@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: janhuang
  * Date: 15/3/30
- * Time: 下午2:10
+ * Time: 下午2:17
  * Github: https://www.github.com/janhuang 
  * Coding: https://www.coding.net/janhuang
  * SegmentFault: http://segmentfault.com/u/janhuang
@@ -11,12 +11,12 @@
  * Gmail: bboyjanhuang@gmail.com
  */
 
-namespace Dobee\Server;
+namespace Dobee\Server\Handlers;
 
-class HttpServer extends Server
+class HttpHandler extends Handler
 {
-    public function __construct($host, $port)
+    public function request($request, $response)
     {
-        $this->server = new \swoole_http_server($host, $port);
+        $response->end('hello world');
     }
 }
