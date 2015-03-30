@@ -20,7 +20,7 @@ use Dobee\Server\Handlers\Handler;
  *
  * @package Dobee\Server
  */
-class Server
+abstract class Server
 {
     /**
      * @var
@@ -45,6 +45,12 @@ class Server
         return $this->server;
     }
 
+    abstract public function getMasterName();
+
+    abstract public function getManagerName();
+
+    abstract public function getWorkerName();
+
     /**
      * @return void
      */
@@ -66,6 +72,10 @@ class Server
             'Task'          => array($defaultHandler, 'task'),
             'Finish'        => array($defaultHandler, 'finish'),
         ), $this->handlers);
+
+        $defaultHandler->setMasterName($this->getMasterName());
+        $defaultHandler->setManagerName($this->getManagerName());
+        $defaultHandler->setWorkerName($this->getWorkerName());
 
         foreach ($handlers as $event => $handler) {
             if ('task' == strtolower($event) && !isset($this->config['task_worker_num'])) {

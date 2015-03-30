@@ -27,19 +27,46 @@ class Handler
      */
     protected $sock = '/tmp/swoole.sock';
 
+    protected $masterName;
+
+    protected $managerName;
+
+    protected $workerName;
+
+    public function setMasterName($name)
+    {
+        $this->managerName = $name;
+
+        return $this;
+    }
+
     public function getMasterName()
     {
-        return 'swoole_server_master';
+        return $this->masterName;
+    }
+
+    public function setManagerName($name)
+    {
+        $this->managerName = $name;
+
+        return $this;
     }
 
     public function getManagerName()
     {
-        return 'swoole_server_manager';
+        return $this->managerName;
+    }
+
+    public function setWorkerName($name)
+    {
+        $this->workerName = $name;
+
+        return $this;
     }
 
     public function getWorkerName()
     {
-        return 'swoole_server_worker';
+        return $this->workerName;
     }
 
     public function renameProcess($name)

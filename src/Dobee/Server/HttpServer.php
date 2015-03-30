@@ -19,4 +19,19 @@ class HttpServer extends Server
     {
         $this->server = new \swoole_http_server($host, $port);
     }
+
+    public function getMasterName()
+    {
+        return 'swoole_http_server';
+    }
+
+    public function getManagerName()
+    {
+        return 'swoole_http_manager';
+    }
+
+    public function getWorkerName()
+    {
+        return 'swoole_http_worker';
+    }
 }
