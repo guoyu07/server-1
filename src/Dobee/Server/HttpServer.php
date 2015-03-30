@@ -15,11 +15,6 @@ namespace Dobee\Server;
 
 class HttpServer extends Server
 {
-    public function __construct($host, $port)
-    {
-        $this->server = new \swoole_http_server($host, $port);
-    }
-
     public function getMasterName()
     {
         return 'swoole_http_server';
@@ -33,5 +28,10 @@ class HttpServer extends Server
     public function getWorkerName()
     {
         return 'swoole_http_worker';
+    }
+
+    public function createServer($host, $port, $mode = null, $ssl = null)
+    {
+        $this->server = new \swoole_http_server($host, $port);
     }
 }

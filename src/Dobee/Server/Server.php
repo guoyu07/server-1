@@ -51,6 +51,8 @@ abstract class Server
 
     abstract public function getWorkerName();
 
+    abstract public function createServer($host, $port, $mode = null, $ssl = null);
+
     /**
      * @return void
      */

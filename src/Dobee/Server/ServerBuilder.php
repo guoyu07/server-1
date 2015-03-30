@@ -69,9 +69,9 @@ class ServerBuilder
      * @param bool  $daemon
      * @return HttpServer
      */
-    public function getHttpServer(array $config = array(), $daemon = true)
+    public function getHttpServer(Server $server, array $config = array(), $daemon = true)
     {
-        $server = new HttpServer($this->host, $this->port);
+        $server->createServer($this->host, $this->port);
 
         $config = array_merge($config, array('daemonize' => $daemon));
 
