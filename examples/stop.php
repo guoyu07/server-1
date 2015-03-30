@@ -15,6 +15,6 @@ include __DIR__ . '/../vendor/autoload.php';
 
 $builder = \Dobee\Server\ServerBuilder::createServer('127.0.0.1', 9501);
 
-$http = $builder->getHttpServer(array(), false);
+$http = $builder->getHttpServer(new \Dobee\Server\HttpServer(), array(), false);
 
 $http->stop();
