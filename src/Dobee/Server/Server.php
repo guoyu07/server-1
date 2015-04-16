@@ -13,110 +13,29 @@
 
 namespace Dobee\Server;
 
-use Dobee\Server\Handlers\Handler;
+use Dobee\Server\Handlers\HandlerInterface;
 
 /**
  * Class Server
  *
  * @package Dobee\Server
  */
-abstract class Server
+abstract class Server implements ServerInterface
 {
     /**
-     * @var
-     */
-    protected $server;
-
-    /**
      * @var array
      */
-    protected $config;
+    protected $config = array();
 
     /**
-     * @var array
+     * @var bool
+     */
+    protected $daemonize = false;
+
+    /**
+     * @var HandlerInterface[]
      */
     protected $handlers = array();
-
-    /**
-     * @return Server
-     */
-    public function getServer()
-    {
-        return $this->server;
-    }
-
-    abstract public function getMasterName();
-
-    abstract public function getManagerName();
-
-    abstract public function getWorkerName();
-
-    abstract public function createServer($host, $port, $mode = null, $ssl = null);
-
-    /**
-     * @return void
-     */
-    public function configure()
-    {
-        $defaultHandler = new Handler();
-
-        $handlers = array_merge(array(
-            'Start'         => array($defaultHandler, 'start'),
-            'Shutdown'      => array($defaultHandler, 'shutdown'),
-            'WorkerStart'   => array($defaultHandler, 'workerStart'),
-            'WorkerStop'    => array($defaultHandler, 'workerStop'),
-            'WorkerError'   => array($defaultHandler, 'workerError'),
-            'Connect'       => array($defaultHandler, 'connect'),
-            'ManagerStart'  => array($defaultHandler, 'managerStart'),
-            'ManagerStop'   => array($defaultHandler, 'managerStop'),
-            'Receive'       => array($defaultHandler, 'receive'),
-            'Close'         => array($defaultHandler, 'close'),
-            'Task'          => array($defaultHandler, 'task'),
-            'Finish'        => array($defaultHandler, 'finish'),
-        ), $this->handlers);
-
-        $defaultHandler->setMasterName($this->getMasterName());
-        $defaultHandler->setManagerName($this->getManagerName());
-        $defaultHandler->setWorkerName($this->getWorkerName());
-
-        foreach ($handlers as $event => $handler) {
-            if ('task' == strtolower($event) && !isset($this->config['task_worker_num'])) {
-                continue;
-            }
-
-            $this->server->on($event, $handler);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    public function start()
-    {
-        $this->configure();
-
-        $this->server->start();
-    }
-
-    /**
-     * @return void
-     */
-    public function stop()
-    {
-        $defaultHandler = new Handler();
-
-        exec('kill -15 ' . $defaultHandler->getMasterPid());
-    }
-
-    /**
-     * @return void
-     */
-    public function reload()
-    {
-        $defaultHandler = new Handler();
-
-        exec('kill -USR1 ' . $defaultHandler->getMasterPid());
-    }
 
     /**
      * @param array $config
@@ -125,6 +44,19 @@ abstract class Server
     public function setConfig(array $config)
     {
         $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $daemonize
+     * @return $this
+     */
+    public function setDaemonize($daemonize = false)
+    {
+        $this->daemonize = $daemonize;
+
+        $this->config = array_merge($this->config, array('daemonize' => $daemonize));
 
         return $this;
     }

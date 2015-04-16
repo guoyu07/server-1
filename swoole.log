@@ -1,6 +1,18 @@
- start in date: 2015-03-30 16:03:05
-swoole_http_manager start in date: 2015-03-30 16:03:05
-worker : swoole_http_worker0 start in date: 2015-03-30 16:03:05
- start in date: 2015-03-30 16:07:44
-swoole_http_manager start in date: 2015-03-30 16:07:44
-worker : swoole_http_worker0 start in date: 2015-03-30 16:07:44
+ start in date: 2015-04-16 16:21:04
+worker : dobee worker1 start in date: 2015-04-16 16:21:04
+dobee manager start in date: 2015-04-16 16:21:04
+worker : dobee worker0 start in date: 2015-04-16 16:21:04
+ start in date: 2015-04-16 16:27:26
+dobee manager start in date: 2015-04-16 16:27:26
+worker : dobee worker0 start in date: 2015-04-16 16:27:26
+worker : dobee worker1 start in date: 2015-04-16 16:27:26
+worker 0 shutdown in date: 2015-04-16 16:27:44
+manager shutdown in date: 2015-04-16 16:27:44
+worker 1 shutdown in date: 2015-04-16 16:27:44
+dobee manager start in date: 2015-04-16 16:28:07
+ start in date: 2015-04-16 16:28:07
+worker : dobee worker1 start in date: 2015-04-16 16:28:07
+worker : dobee worker0 start in date: 2015-04-16 16:28:07
+manager shutdown in date: 2015-04-16 16:28:15
+worker 0 shutdown in date: 2015-04-16 16:28:15
+worker 1 shutdown in date: 2015-04-16 16:28:15

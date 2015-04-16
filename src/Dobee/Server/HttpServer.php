@@ -15,23 +15,60 @@ namespace Dobee\Server;
 
 class HttpServer extends Server
 {
+    protected $server;
+
     public function getMasterName()
     {
-        return 'swoole_http_server';
+        return 'dobee master';
     }
 
     public function getManagerName()
     {
-        return 'swoole_http_manager';
+        return 'dobee manager';
     }
 
     public function getWorkerName()
     {
-        return 'swoole_http_worker';
+        return 'dobee worker';
     }
 
-    public function createServer($host, $port, $mode = null, $ssl = null)
+    public function __construct($host, $port, $mode = null, $ssl = null)
     {
         $this->server = new \swoole_http_server($host, $port);
+    }
+
+    public function configure()
+    {
+        foreach ($this->handlers as $event => $handle) {
+            $this->server->on($event, $handle);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function start()
+    {
+        $this->server->set($this->config);
+
+        $this->configure();
+
+        $this->server->start();
+    }
+
+    /**
+     * @return void
+     */
+    public function reload()
+    {
+        // TODO: Implement reload() method.
+    }
+
+    /**
+     * @return void
+     */
+    public function stop()
+    {
+        // TODO: Implement stop() method.
     }
 }

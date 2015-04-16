@@ -13,10 +13,10 @@
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$builder = \Dobee\Server\ServerBuilder::createServer('127.0.0.1', 9501);
+$http = new \Dobee\Server\HttpServer('0.0.0.0', 9505);
 
-$http = $builder->getHttpServer(new \Dobee\Server\HttpServer(), array(), false);
-
-$http->setHandler('request', array(new \Dobee\Server\Handlers\HttpHandler(), 'request'));
+$http->setHandler('request', function ($request, $response) {
+    $response->end('hello world');
+});
 
 $http->start();
