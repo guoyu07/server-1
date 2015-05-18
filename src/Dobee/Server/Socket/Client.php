@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: janhuang
- * Date: 15/3/30
- * Time: 下午2:09
+ * Date: 15/5/16
+ * Time: 下午10:51
  * Github: https://www.github.com/janhuang 
  * Coding: https://www.coding.net/janhuang
  * SegmentFault: http://segmentfault.com/u/janhuang
@@ -11,12 +11,11 @@
  * Gmail: bboyjanhuang@gmail.com
  */
 
-include __DIR__ . '/../vendor/autoload.php';
+namespace Dobee\Server\Socket;
 
-$http = new \Dobee\Server\HttpServer('0.0.0.0', 9505);
+use Dobee\Server\ClientAbstract;
 
-$http->setHandler('request', function ($request, $response) {
-    $response->end('hello world');
-});
+class Client extends ClientAbstract
+{
 
-$http->start();
+}

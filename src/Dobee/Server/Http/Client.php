@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: janhuang
- * Date: 15/3/30
- * Time: 下午3:13
+ * Date: 15/5/16
+ * Time: 下午10:53
  * Github: https://www.github.com/janhuang 
  * Coding: https://www.coding.net/janhuang
  * SegmentFault: http://segmentfault.com/u/janhuang
@@ -11,10 +11,11 @@
  * Gmail: bboyjanhuang@gmail.com
  */
 
-include __DIR__ . '/../vendor/autoload.php';
+namespace Dobee\Server\Http;
 
-$builder = \Dobee\Server\ServerBuilder::createServer('127.0.0.1', 9501);
+use Dobee\Server\ClientAbstract;
 
-$http = $builder->getHttpServer(new \Dobee\Server\HttpServer(), array(), false);
+class Client extends ClientAbstract
+{
 
-$http->stop();
+}
