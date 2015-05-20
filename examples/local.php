@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: janhuang
- * Date: 15/5/16
- * Time: 下午8:14
+ * Date: 15/5/18
+ * Time: 下午10:26
  * Github: https://www.github.com/janhuang 
  * Coding: https://www.coding.net/janhuang
  * SegmentFault: http://segmentfault.com/u/janhuang
@@ -13,10 +13,10 @@
 
 include __DIR__ . '/../vendor/autoload.php';
 
-$server = \Dobee\Server\Builder::createServer('tcp://0.0.0.0:9501');
+$client = \Dobee\Server\Builder::createClient('tcp://11.11.11.11:9501');
 
-$server->addFunction('hello', function ($name) {
-    return 'hello' . $name;
-});
+$result = $client->invoke('hello', ['janhuang']);
 
-$server->start();
+print_r($result);
+
+echo PHP_EOL;
